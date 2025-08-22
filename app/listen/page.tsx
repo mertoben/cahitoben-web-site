@@ -1,14 +1,49 @@
+import Link from 'next/link'
+import { ARTIST_LINKS } from '@/lib/links'
+export const metadata = {
+  title: 'Dinle — Cahit Oben',
+  description: 'Spotify, Apple Music ve YouTube üzerinden dinleyin.',
+}
 
-export const metadata = { title:'Dinle' }
-export default function Listen(){
+export default function ListenPage() {
   return (
-    <section className="container py-10">
-      <h1 className="text-2xl font-semibold mb-4">Dinle</h1>
-      <ul className="space-y-2 list-disc list-inside">
-        <li><a href="https://open.spotify.com/artist/2O8jY0TevDFs7R9tzkh4SH" target="_blank" rel="noreferrer">Spotify</a></li>
-        <li><a href="https://music.apple.com/tr/artist/cahit-oben/95145871" target="_blank" rel="noreferrer">Apple Music</a></li>
-        <li><a href="https://www.youtube.com/channel/UCWiOnChcc4l8peYF7e0XXfw" target="_blank" rel="noreferrer">YouTube</a></li>
+    <main className="container mx-auto px-6 py-12">
+      <h1 className="text-3xl font-bold mb-6">Dinle</h1>
+      <p className="text-zinc-600 mb-8">
+        Resmî dijital platform bağlantıları:
+      </p>
+      <ul className="grid sm:grid-cols-3 gap-4">
+        <li>
+          <Link
+            href={ARTIST_LINKS.spotify}
+            target="_blank"
+            className="block rounded-xl border p-5 hover:bg-zinc-50"
+          >
+            <div className="text-lg font-semibold">Spotify</div>
+            <div className="text-sm text-zinc-500">Sanatçı sayfası</div>
+          </Link>
+        </li>
+        <li>
+          <Link
+            href={ARTIST_LINKS.apple}
+            target="_blank"
+            className="block rounded-xl border p-5 hover:bg-zinc-50"
+          >
+            <div className="text-lg font-semibold">Apple Music</div>
+            <div className="text-sm text-zinc-500">Sanatçı sayfası</div>
+          </Link>
+        </li>
+        <li>
+          <Link
+            href={ARTIST_LINKS.youtube}
+            target="_blank"
+            className="block rounded-xl border p-5 hover:bg-zinc-50"
+          >
+            <div className="text-lg font-semibold">YouTube</div>
+            <div className="text-sm text-zinc-500">Resmî kanal</div>
+          </Link>
+        </li>
       </ul>
-    </section>
+    </main>
   )
 }
