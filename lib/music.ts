@@ -1,13 +1,12 @@
-// lib/music.ts
 export type Track = {
   id: string;
   title: string;
-  duration?: string;        // ISO 8601 süre "PT2M45S" gibi (isteğe bağlı)
+  duration?: string;
   spotify?: string;
   apple?: string;
   youtube?: string;
 };
-
+// Bu satırı GÜNCELLE:
 export type Release = {
   id: string;
   slug: string;
@@ -15,23 +14,19 @@ export type Release = {
   year: number;
   type: 'single' | 'ep' | 'lp' | 'compilation';
   label?: string;
-  catno?: string;           // katalo k no (varsa)
-  cover: string;            // /images/covers/*.jpg
+  catno?: string;
+  cover: string;
   description?: string;
   tracks: Track[];
-  external?: {
-    spotify?: string;
-    apple?: string;
-    discogs?: string;
-    youtube?: string;
-  };
-  // JSON-LD için
+  external?: Partial<Record<
+    'spotify' | 'apple' | 'youtube' | 'discogs' | 'wikipedia' | 'qobuz' | 'lastfm' | 'deezer' | 'tidal' | 'soundcloud',
+    string
+  >>;
   schema?: {
     isrcs?: Record<string, string>;
     upc?: string;
   };
 };
-
 // Not: Kapak görsellerini /public/images/covers altına koy.
 // İsimleri burada kullandığım dosya adlarıyla eşleşsin.
 
@@ -51,7 +46,7 @@ export const ALBUMS: Release[] = [
       { id: 'b1', title: 'Halime' },
     ],
     external: {
-      wikipedia: undefined,
+      wikipedia: 'https://tr.wikipedia.org/wiki/Cahit_Oben',
       discogs: 'https://www.discogs.com/artist/7381103-Cahit-Oben-D%C3%B6rtl%C3%BCs%C3%BC',
       youtube: 'https://www.youtube.com/results?search_query=cahit+oben+makaram+sari+ba%C4%9Flar',
     },
