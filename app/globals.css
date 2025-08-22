@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { --bg: #0b0b0b; --fg: #e7e7e7; }
+body { background: var(--bg); color: var(--fg); }
+.container { max-width: 1100px; margin: 0 auto; padding: 0 1rem; }
+.prose a { text-decoration: underline; }

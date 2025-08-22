@@ -1,0 +1,1 @@
+export const metadata={title:'Telif Hakları'};export default function C(){return(<section className='container py-10 prose prose-invert'><h1>Telif Hakları</h1><p>MESAM kayıtlı eserler ve telif notu.</p></section>)}

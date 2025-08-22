@@ -1,0 +1,1 @@
+export const metadata={title:'Kullanım Şartları'};export default function T(){return(<section className='container py-10 prose prose-invert'><h1>Kullanım Şartları</h1><p>Örnek kullanım şartları.</p></section>)}
