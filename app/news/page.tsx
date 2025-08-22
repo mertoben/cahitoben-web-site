@@ -1,25 +1,53 @@
-
 import Link from 'next/link'
-import { NEWS } from '@/lib/news'
 
-export const metadata = { title:'Haberler' }
+export const metadata = {
+  title: 'Haberler — Cahit Oben',
+  description: 'Basında yer alan haberler ve duyurular.',
+}
 
-export default function News(){
+async function getGoogleNews() {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL ?? ''}/api/news/google`, {
+    // Production’da domain gerekir; dev’de relative de olabilir.
+    // Güvenli yaklaşım: mutlak URL. NEXT_PUBLIC_SITE_URL .env’de olmalı.
+    next: { revalidate: 3600 },
+    cache: 'force-cache',
+  }).catch(() => null)
+
+  if (!res || !res.ok) return []
+  const data = await res.json().catch(() => null)
+  return data?.items ?? []
+}
+
+export default async function NewsPage() {
+  const items = await getGoogleNews()
+
   return (
-    <section className="container py-10">
-      <h1 className="text-2xl font-semibold mb-6">Haberler</h1>
-      <div className="grid md:grid-cols-2 gap-6">
-        {NEWS.map(n => (
-          <Link key={n.slug} href={`/news/${n.slug}`} className="block border border-zinc-800 rounded-lg overflow-hidden hover:border-zinc-600">
-            <img src={n.image || '/images/news/sergi.jpg'} alt={n.title} className="w-full aspect-video object-cover"/>
-            <div className="p-3">
-              <div className="font-semibold">{n.title}</div>
-              <div className="text-xs text-zinc-500">{new Date(n.date).toLocaleDateString('tr-TR')}</div>
-              <p className="text-sm mt-1 text-zinc-300">{n.excerpt}</p>
-            </div>
-          </Link>
-        ))}
+    <main className="container mx-auto px-6 py-12">
+      <h1 className="text-3xl font-bold mb-6">Haberler</h1>
+
+      <div className="mb-6 text-sm text-zinc-600">
+        Kaynak: Google News (otomatik). Son 1 saatlik önbellekleme uygulanır.
       </div>
-    </section>
+
+      {!items.length ? (
+        <div className="text-zinc-500">Şu anda haber bulunamadı.</div>
+      ) : (
+        <ul className="space-y-4">
+          {items.map((it: any, i: number) => (
+            <li key={i} className="border rounded-xl p-4 hover:bg-zinc-50">
+              <Link href={it.link} target="_blank" className="block">
+                <div className="text-lg font-semibold">{it.title}</div>
+                {it.description && (
+                  <p className="text-sm text-zinc-600 mt-1">{it.description}</p>
+                )}
+                <div className="text-xs text-zinc-500 mt-2">
+                  {it.source ? `${it.source} • ` : ''}{new Date(it.pubDate).toLocaleString('tr-TR')}
+                </div>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
+    </main>
   )
 }
